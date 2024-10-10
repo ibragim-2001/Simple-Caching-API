@@ -10,6 +10,7 @@ media
 *.bak
 
 tasks.txt
+.idea
 
 # If you are using PyCharm #
 # User-specific stuff
