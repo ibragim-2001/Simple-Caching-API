@@ -1,4 +1,5 @@
 import os
+import redis
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -90,3 +91,5 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+redis_client = redis.Redis(host=os.getenv('REDIS_HOST'), port=os.getenv('REDIS_PORT'), db=os.getenv('REDIS_DB'))
