@@ -6,8 +6,6 @@ from settings.settings import redis_client
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_500_INTERNAL_SERVER_ERROR
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 
 
