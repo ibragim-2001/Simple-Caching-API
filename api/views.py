@@ -48,4 +48,4 @@ class ItemsViewTwo(APIView):
             items = serializer.data
             cache.set('items_lst', items, 10)
 
-        return Response({'items': items})
+        return Response({'items': items}, status=HTTP_200_OK)
