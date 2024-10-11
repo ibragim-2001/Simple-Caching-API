@@ -1,16 +1,21 @@
 import json
 import redis
+
 from settings.settings import redis_client
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_500_INTERNAL_SERVER_ERROR
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
+
 
 from .serializers import ItemsSerializer
 from .models import Items
 
 
-class ItemsView(APIView):
+class ItemsViewOne(APIView):
 
     def get(self, request):
         try:
@@ -32,3 +37,17 @@ class ItemsView(APIView):
 
         except (redis.RedisError, json.JSONDecodeError) as e:
             return Response({'error': {str(e)}}, status=HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class ItemsViewTwo(APIView):
+
+    def get(self, request):
+        items = cache.get('items_lst')
+
+        if not items:
+            items = Items.objects.all()
+            serializer = ItemsSerializer(items, many=True)
+            items = serializer.data
+            cache.set('items_lst', items, 10)
+
+        return Response({'items': items})
